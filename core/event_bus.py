@@ -1,4 +1,3 @@
-# core/event_bus.py
 from typing import Callable, Dict, List
 from threading import Lock
 from enum import Enum
@@ -38,5 +37,4 @@ class EventBus:
             except Exception as e:
                 print(f"[EventBus] Error in callback {callback}: {e}")
 
-# Global event bus instance
 event_bus = EventBus()
