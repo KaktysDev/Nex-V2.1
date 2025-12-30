@@ -1,4 +1,3 @@
-# core/coordinator.py
 from core.event_bus import EventBus, Event, EventType
 from core.intent_processor import IntentProcessor
 from services.action_service import ActionService
@@ -11,17 +10,14 @@ class Coordinator:
         self.action_service = ActionService()
         self.speech_service = SpeechService()
         
-        # Subscribe to events
         self.event_bus.subscribe(EventType.VOICE_INPUT, self._handle_voice_input)
         self.event_bus.subscribe(EventType.CHAT_INPUT, self._handle_chat_input)
         self.event_bus.subscribe(EventType.INTENT_DETECTED, self._handle_intent)
     
     def start(self):
-        """Initialize services"""
         self.speech_service.initialize()
     
     def _handle_voice_input(self, event: Event):
-        """Process voice input and trigger intent detection"""
         text = event.data.get("text", "")
         if not text:
             return
@@ -33,7 +29,6 @@ class Coordinator:
         ))
     
     def _handle_chat_input(self, event: Event):
-        """Process chat input and trigger intent detection"""
         text = event.data.get("text", "")
         if not text:
             return
@@ -45,14 +40,12 @@ class Coordinator:
         ))
     
     def _handle_intent(self, event: Event):
-        """Route intent to appropriate action"""
         intent_data = event.data.get("intent", {})
         source = event.data.get("source", "unknown")
         
-        # Execute action
         response = self.action_service.execute(intent_data, source=source)
         
-        # Publish response based on source
+
         if source == "voice":
             self.event_bus.publish(Event(
                 EventType.SPEAK_RESPONSE,
