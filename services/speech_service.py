@@ -1,4 +1,3 @@
-# services/speech_service.py
 import os
 import time
 import threading
@@ -14,7 +13,7 @@ class SpeechService:
     def __init__(self):
         self.recognizer = sr.Recognizer()
         self.is_speaking = threading.Event()
-        self.is_speaking.set()  # Start ready to speak
+        self.is_speaking.set()  
         self._shutdown = threading.Event()
         
     def initialize(self):
@@ -27,7 +26,6 @@ class SpeechService:
         if not text or self._shutdown.is_set():
             return
         
-        # Wait for any current speech to finish
         self.is_speaking.wait()
         self.is_speaking.clear()
         
@@ -42,7 +40,6 @@ class SpeechService:
                 while pygame.mixer.music.get_busy() and not self._shutdown.is_set():
                     time.sleep(0.1)
             
-            # Cleanup in background
             threading.Thread(target=self._cleanup_audio, daemon=True).start()
             
         except Exception as e:
@@ -103,10 +100,10 @@ class SpeechService:
         for i, w in enumerate(words):
             if w.strip() in WAKE_WORDS:
                 if i == len(words) - 1:
-                    return ""  # Just wake word, no command
+                    return ""  
                 return " ".join(words[i+1:]).strip()
         
-        return None  # No wake word found
+        return None 
     
     def shutdown(self):
         """Graceful shutdown"""
