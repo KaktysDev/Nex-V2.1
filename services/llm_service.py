@@ -1,4 +1,3 @@
-# services/llm_service.py
 from groq import Groq
 from config.settings import GROQ_API_KEY, DEBUG
 import json
@@ -14,7 +13,6 @@ class LLMService:
 Extract any slots from the user's message. Do not include any commentary or markdown."""
 
     def extract_intent(self, text: str) -> dict:
-        """Extract intent using Groq API"""
         if not text:
             return {"intent": "unknown", "slots": {}}
         
@@ -46,4 +44,4 @@ Extract any slots from the user's message. Do not include any commentary or mark
             if DEBUG:
                 print(f"[LLMService] Groq error: {e}")
         
-        return None  # Signal fallback needed
+        return None  
