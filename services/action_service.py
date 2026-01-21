@@ -1,4 +1,3 @@
-# services/action_service.py
 import os
 import threading
 from datetime import datetime, timedelta
@@ -16,7 +15,6 @@ class ActionService:
         self.reminder_service = ReminderService(REMINDERS_FILE)
         self.system_service = SystemService()
         
-        # Action registry
         self.actions = {
             "weather": self.weather_service.get_weather,
             "time": self._get_time,
@@ -67,9 +65,7 @@ class ActionService:
         if not expr:
             return "What should I calculate?"
         
-        # Simple evaluation (use with caution - production should use safer methods)
         try:
-            # Replace words with operators
             expr = expr.replace("times", "*").replace("x", "*").replace("plus", "+")
             result = eval(expr, {"__builtins__": {}}, {})
             return f"The answer is {result}"
