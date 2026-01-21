@@ -1,4 +1,3 @@
-# main.py
 import sys
 from core.coordinator import Coordinator
 from core.event_bus import event_bus, Event, EventType
@@ -14,12 +13,10 @@ class NexAssistant:
         self.voice_listener = VoiceListener()
         self.speech_service = SpeechService()
         
-        # Subscribe to all events for debugging
         event_bus.subscribe(EventType.VOICE_INPUT, self._debug_voice)
         event_bus.subscribe(EventType.INTENT_DETECTED, self._debug_intent)
         event_bus.subscribe(EventType.SPEAK_RESPONSE, self._handle_speak)
         
-        # Setup shutdown handler
         event_bus.subscribe(EventType.ACTION_RESPONSE, self._check_shutdown)
     
     def _debug_voice(self, event: Event):
@@ -44,10 +41,8 @@ class NexAssistant:
         """Start the assistant"""
         print("Starting Nex Assistant...")
         
-        # Initialize coordinator
         self.coordinator.start()
         
-        # Start voice listener
         self.voice_listener.start()
         
         # Test audio system
@@ -55,13 +50,11 @@ class NexAssistant:
             print("[Main] Testing audio system...")
             self.speech_service.speak("Audio test successful")
         
-        # Announce ready
-        self.speech_service.speak("Nex session started")
+        self.speech_service.speak("Nex is ready")
         
-        print("[Main] System ready. Say 'Hey Nex' followed by your command.")
-        print("[Main] Examples: 'Hey Nex what's the weather' or 'Hey Nex what time is it'")
+        print("[Main] System ready.")
+        print("[Main]")
         
-        # Start GUI (blocking)
         self.chat_window.run()
     
     def shutdown(self):
