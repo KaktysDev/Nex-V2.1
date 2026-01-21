@@ -1,4 +1,3 @@
-# services/system_service.py
 import os
 
 class SystemService:
