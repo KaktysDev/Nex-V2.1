@@ -1,4 +1,3 @@
-# ui/voice_listener.py
 import threading
 import time
 from core.event_bus import event_bus, Event, EventType
@@ -21,7 +20,6 @@ class VoiceListener:
         self.thread.start()
         print("[VoiceListener] Voice listening started")
         
-        # Test speech to confirm audio works
         self.speech_service.speak("Voice system initialized")
     
     def stop(self):
@@ -35,7 +33,6 @@ class VoiceListener:
         """Main voice listening loop"""
         while self.is_running:
             try:
-                # Listen continuously for ANY speech
                 if DEBUG:
                     print("[VoiceListener] Listening for speech...")
                 
@@ -46,19 +43,16 @@ class VoiceListener:
                 if DEBUG:
                     print(f"[VoiceListener] Raw speech detected: {audio}")
                 
-                # Check for wake word in the detected speech
                 command = self.speech_service.extract_after_wake(audio)
                 
                 if command is not None:
                     print(f"[VoiceListener] Wake word detected! Command: {command}")
                     
-                    # Publish voice input event
                     event_bus.publish(Event(
                         EventType.VOICE_INPUT,
                         {"text": command}
                     ))
                     
-                    # Small delay to prevent rapid firing
                     time.sleep(0.5)
                 else:
                     if DEBUG:
