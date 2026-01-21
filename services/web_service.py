@@ -1,4 +1,3 @@
-# services/web_service.py
 import webbrowser
 import requests
 
