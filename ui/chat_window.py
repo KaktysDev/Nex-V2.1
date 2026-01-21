@@ -1,4 +1,3 @@
-# ui/chat_window.py
 import tkinter as tk
 from core.event_bus import event_bus, Event, EventType
 
@@ -9,17 +8,14 @@ class ChatWindow:
         self.root.geometry("400x500")
         self.root.resizable(False, False)
         
-        # Position window
         screen_width = self.root.winfo_screenwidth()
         screen_height = self.root.winfo_screenheight()
         x = screen_width - 420
         y = screen_height - 550
         self.root.geometry(f"+{x}+{y}")
         
-        # Setup UI
         self._setup_ui()
         
-        # Subscribe to chat responses
         event_bus.subscribe(EventType.CHAT_RESPONSE, self._display_response)
     
     def _setup_ui(self):
@@ -47,7 +43,6 @@ class ChatWindow:
         self.entry.delete(0, "end")
         self._display_message("You", user_text)
         
-        # Publish chat input event
         event_bus.publish(Event(
             EventType.CHAT_INPUT,
             {"text": user_text}
@@ -66,9 +61,7 @@ class ChatWindow:
         self._display_message("Nex", text)
     
     def run(self):
-        """Start GUI event loop"""
         self.root.mainloop()
     
     def close(self):
-        """Close window"""
         self.root.destroy()
