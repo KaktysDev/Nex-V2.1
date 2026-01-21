@@ -1,4 +1,3 @@
-# services/reminder_service.py
 import json
 import threading
 import time
@@ -65,7 +64,6 @@ class ReminderService:
     
     def _timer_callback(self, label: str):
         from services.speech_service import SpeechService
-        # Create temporary instance for TTS
         speech = SpeechService()
         speech.speak(f"{label} done.")
     
